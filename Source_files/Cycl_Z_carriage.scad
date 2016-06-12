@@ -4,7 +4,7 @@
  /*
  * August 2013 changes to design top-part mounting screw at same side as bottom-part.
  * also started introduced 2nd spindle diameter for a-symmetrical spindles. this is not working yet.
- * by Harry Binnema. 
+ * by Harry Binnema.
  */
 
 include <libs/MCAD/stepper.scad>
@@ -21,7 +21,7 @@ use <libs/MCAD/materials.scad>
 
 Z_motorModel = Nema17;
 motor_width = lookup(NemaSideSize, Z_motorModel);
-motor_screw_head_diameter = METRIC_BOLT_CAP_DIAMETERS[3]+1+screwHoleTolerance;;
+motor_screw_head_diameter = METRIC_BOLT_CAP_DIAMETERS[3]+1+screwHoleTolerance;
 
 Z_bearing_width = bearingWidth(Z_threaded_rodBearingModel);
 
@@ -41,14 +41,14 @@ module Cyclone_Z_carriage(z_thread_rod_length=120, with_extra_parts=false, explo
   linearBearingLength = linearBearing_L(Z_linearBearingModel);
   spindle_holder_distance = linearBearingLength*2+3;
 	gear_thickness = Z_gear_thickness;
-	
+
 	ZthreadedOffset = -3.5;
 	axes_Xsmooth_separation = 16+ZthreadedOffset;
 	Z_threaded_pos = motor_width/2+axis_distance+axes_Xsmooth_separation;
 	spindle_front_offset = 10+ZthreadedOffset;
-	
+
 	rodNutSize = Z_threaded_rodNutSize;
-	
+
 	module dummySpindle(length=0) {
 		translate([0,0,-length]) {
 			translate([0,0,spindle_motor_length-5]) color([0.95,0.95,0.95]) cylinder(r=26,h=30);
@@ -76,7 +76,7 @@ module Cyclone_Z_carriage(z_thread_rod_length=120, with_extra_parts=false, explo
 			translate ([spindiam/2+15,15,length/2]) rotate([90,0,0]) cylinder(r=2,h=30);
 			translate ([spindiam/2+15,-10.5,length/2]) rotate([90,0,0]) cylinder(r=3.5,h=4,$fn=6);
 			translate ([spindiam/2+15,10.5,length/2]) rotate([0,0,0]) screw_and_nut(size=spindle_holder_screwSize,length=25,nutDepth=4,nutAddedLen=0,captiveLen=0,autoNutOffset=true,echoPart=true);
-			}		
+			}
 			}
 		else
 			{
@@ -89,8 +89,8 @@ module Cyclone_Z_carriage(z_thread_rod_length=120, with_extra_parts=false, explo
 			}
 			}
 	}
-	
-	// Creates the part where the alluminium spindle holder will be attached to. 
+
+	// Creates the part where the alluminium spindle holder will be attached to.
 	// This part is joined to the current Z carriage instead of the dremel holder.
 	module SpindleHolder(top_part=true, boltDiam=6, horizontalBoltDistance=70, verticalBoltDistance=18, holderWidth=90){
 
@@ -130,7 +130,7 @@ module Cyclone_Z_carriage(z_thread_rod_length=120, with_extra_parts=false, explo
 					rotate([0,0,180]) screw_and_nut(size=6,length=90, rot=90, invert=true, echoPart=true);
 			}
 	}
-	
+
 	module motorHolesZ() {
 		nema_screw_separation = lookup(NemaDistanceBetweenMountingHoles, Z_motorModel);
 
@@ -196,7 +196,7 @@ module Cyclone_Z_carriage(z_thread_rod_length=120, with_extra_parts=false, explo
 						else
 							cylinder(r=spindle_motor_diam/2+spindle_holder_thickness,h=wall_thickness);
 			}
-	
+
 			// For the linear bearing holders
 			hull() {
 				translate([wall_height/2-Z_smooth_rods_sep/2,Z_threaded_pos,0])
@@ -204,7 +204,7 @@ module Cyclone_Z_carriage(z_thread_rod_length=120, with_extra_parts=false, explo
 				translate([wall_height/2+Z_smooth_rods_sep/2,Z_threaded_pos,0])
 					cylinder(r=3+linearBearingDiameter/2,h=wall_thickness);
 			}
-			
+
 			// Select tool holder
 			if(tool==dremel)
 			{
@@ -215,7 +215,7 @@ module Cyclone_Z_carriage(z_thread_rod_length=120, with_extra_parts=false, explo
 						translate([0,38,0]) {
 							rotate([0,0,0]) {
 								translate([spindle_motor_diam_top/2,-12.5,0]) cube([20,20,wall_thickness]);
-								
+
 					// Write text in the front
 					color([0.5,0.5,0.5])
 							rotate([0,0,180]) scale([-1,1,-textHscale])
@@ -226,7 +226,7 @@ module Cyclone_Z_carriage(z_thread_rod_length=120, with_extra_parts=false, explo
 				else
 				translate([wall_height/2,wall_width-4,0])
 					translate([0,38,0]) {
-						
+
 						rotate([0,0,180]) {
 						translate([spindle_motor_diam/2,-7-0.5,0]) cube([22,20,wall_thickness]);
 						color([0.2,0.2,0.5])
@@ -248,11 +248,11 @@ module Cyclone_Z_carriage(z_thread_rod_length=120, with_extra_parts=false, explo
 				difference () {
 					Z_solid_body(top_part);
 					if(top_part) motor_stand_holes_Z();
-					if(tool==dremel) { 
+					if(tool==dremel) {
 						translate([wall_height/2,wall_width-4,0])
 							spindle_holder_holes(wall_thickness,spindle_motor_diam,top_part);
 					}
-					
+
 					translate([wall_height/2-Z_smooth_rods_sep/2,Z_threaded_pos,0])
 						linearBearingHolderZ(10*wall_thickness);
 					translate([wall_height/2+Z_smooth_rods_sep/2,Z_threaded_pos,0])
@@ -271,7 +271,7 @@ module Cyclone_Z_carriage(z_thread_rod_length=120, with_extra_parts=false, explo
 
 			// Hole for the threaded rod
 			if(!top_part) {
-				translate([-axes_Xsmooth_separation,0,0]) 
+				translate([-axes_Xsmooth_separation,0,0])
 					cylinder(r=6+axes_Zsmooth_rodD,h=wall_thickness*10,center=true);
 			}
 
@@ -279,8 +279,8 @@ module Cyclone_Z_carriage(z_thread_rod_length=120, with_extra_parts=false, explo
 			if(!top_part) translate([-15-axes_Xsmooth_separation+11+ZthreadedOffset,0,0]) cube([20,100,50],center=true);
 		}
 	}
-	
-	// Carriages	
+
+	// Carriages
 	if(Render_Z_carriageBottom) {
 		rotate([0,0,-90])
 			Z_carriage(showSpindle=true,top_part=false,with_extra_parts=with_extra_parts, exploded=exploded);
@@ -289,7 +289,7 @@ module Cyclone_Z_carriage(z_thread_rod_length=120, with_extra_parts=false, explo
 		translate([0,0,spindle_holder_distance+1.5]) rotate([180,0,-90])
 			Z_carriage(showSpindle=false,top_part=true,with_extra_parts=with_extra_parts, exploded=exploded);
 	}
-	
+
 	// Bearings
 	translate([-axes_Zsmooth_separation/2,0,1.5])
 		linearBearing_single(model=Z_linearBearingModel, echoPart=true);
@@ -299,14 +299,14 @@ module Cyclone_Z_carriage(z_thread_rod_length=120, with_extra_parts=false, explo
 		linearBearing_single(model=Z_linearBearingModel, echoPart=true);
 	translate([axes_Zsmooth_separation/2,0,linearBearingLength+0.5+1.5])
 		linearBearing_single(model=Z_linearBearingModel, echoPart=true);
-	translate([0,axes_Xsmooth_separation,spindle_holder_distance+1.5-wall_thickness/2])	
+	translate([0,axes_Xsmooth_separation,spindle_holder_distance+1.5-wall_thickness/2])
 		rotate([180,0,0])
 			radialBearing(echoPart=true);
-		
+
   // Motor
 	translate([0,axes_Xsmooth_separation+axis_distance,spindle_holder_distance+1.5]) rotate([180,0,0])
 		stepperMotor(screwHeight=wall_thickness/2+1.5, echoPart=true);
-		
+
 	// Gears
 	color(color_stillPart) {
 		translate([0,axes_Xsmooth_separation+axis_distance+2,spindle_holder_distance+2-wall_thickness-gear_thickness])
@@ -314,13 +314,13 @@ module Cyclone_Z_carriage(z_thread_rod_length=120, with_extra_parts=false, explo
 		translate([0,axes_Xsmooth_separation,spindle_holder_distance+1.5-wall_thickness/2-Z_bearing_width*2-gear_thickness/4])
 			cyclone_rod_gear(Gear_N_Teeth=Z_rodGearRatio,gearHeight=gear_thickness,nutSize=8,tolerance= screwHoleTolerance);
 	}
-		
-	// Nuts	
+
+	// Nuts
 	translate([0,axes_Xsmooth_separation,spindle_holder_distance+1.5-wall_thickness/2-Z_bearing_width*2])
 	  nut(size=rodNutSize, echoPart=true);
 	translate([0,axes_Xsmooth_separation,spindle_holder_distance+1.5-wall_thickness/2-Z_bearing_width*2-gear_thickness*1.4])
 	  nut(size=rodNutSize, chamfer=true, echoPart=true);
-	  
+
 	if( tool == dremel){
 	  // Dremel tool
 		translate([0,-40,-40]) {
@@ -333,7 +333,7 @@ module Cyclone_Z_carriage(z_thread_rod_length=120, with_extra_parts=false, explo
 				color([0.4,0.4,0.4]) %cylinder(r1=12/2, r2=10/2, h=20);
 			translate([0,0,-20-20])
 				color([0.9,0.9,0.9]) %cylinder(r1=0.5/2, r2=3/2, h=20);
-			
+
 		}
 	}
 	if( tool == spindle_holder){

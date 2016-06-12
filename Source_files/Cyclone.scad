@@ -16,14 +16,14 @@
 //   Please note that some parts will only be present in the preview, but not in the
 //   final render. This is normal, as they are used only as a reference and do not need
 //   to be 3D printed.
-//   
+//
 //   The main file that needs to be opened with OpenScad is Cyclone.scad (this document).
 //   From here, it is possible to select most of the parts, using the root modifier (!).
 //   Place it before a function to exclusively render that subtree. When used, for instance, as
 //      !Cyclone_Y_frontFrame();
 //   it will show only the frontal Y axis frame. Rendering it with F6 will output only
 //   that part, which will be ready to be exported as STL.
-//   
+//
 //   It is also possible to generate larger STL files that contain multiple elements,
 //   and afterwards split them. This can be achieved with a software like Cura, that
 //   also allows easy rotation and positioning of the models for printing.
@@ -104,7 +104,7 @@ render_2D_or_3D() {
 
 			// Draw left Y smooth rod
 			rotate([0,0,180]) standard_rod(diam=axes_Ysmooth_rodD, length=axes_Ysmooth_rodLen, threaded=false, echoPart=true);
-				
+
 			if(Render_X_leftFrame)
 				Cyclone_X_leftFrame();
 
@@ -114,16 +114,16 @@ render_2D_or_3D() {
 
 					// Draw right Y smooth rod
 					rotate([0,0,180]) standard_rod(diam=axes_Ysmooth_rodD, length=axes_Ysmooth_rodLen, threaded=false, echoPart=true);
-						
-						if(Render_X_rightFrame) 
+
+						if(Render_X_rightFrame)
 							Cyclone_X_rightFrame();
 			}
-	
-	
+
+
 		// TRANSLATE REFERENCE POSITION to the right frame, X lower smooth rod end
 		translate([axes_Xreference_posX,axes_Xreference_posY,axes_Xreference_height]) {
 			if(draw_references) %frame();
-		
+
 			// Draw bottom X smooth rod
 			rotate([0,0,-90]) standard_rod(diam=axes_Xsmooth_rodD, length=axes_Xsmooth_rodLen, threaded=false, echoPart=true);
 			// Draw X threaded rod
@@ -132,19 +132,19 @@ render_2D_or_3D() {
 			// Draw top X smooth rod
 			translate([0,axes_Xsmooth_separation,axes_Xsmooth_separation])
 				rotate([0,0,-90]) standard_rod(diam=axes_Xsmooth_rodD, length=axes_Xsmooth_rodLen, threaded=false, echoPart=true);
-		
-		
+
+
 			// TRANSLATE REFERENCE POSITION to the X carriage (centered), X lower smooth rod
 			translate([axes_Xcarriage_pos,0,0]) {
 				if(draw_references) %frame();
-				
+
 				if(Render_X_carriage)
 					Cyclone_X_carriage();
-				
+
 				// TRANSLATE REFERENCE POSITION to the Z axis origin (right smooth rod)
 				translate([-axes_Zsmooth_separation/2,axes_Zreference_posY,axes_Zreference_height]) {
 					if(draw_references) %frame();
-				
+
 					// Draw Z smooth rod (right)
 					rotate([90,0,0]) standard_rod(diam=axes_Zsmooth_rodD, length=axes_Zsmooth_rodLen, threaded=false, echoPart=true);
 					// Draw Z smooth rod (left)
@@ -153,38 +153,38 @@ render_2D_or_3D() {
 					// Draw Z threaded rod
 					translate([axes_Zsmooth_separation/2,axes_ZthreadedReference_posY,0])
 						rotate([90,0,0]) standard_rod(diam=axes_Zthreaded_rodD, length=axes_Zthreaded_rodLen, threaded=true, echoPart=true);
-					
+
 					// TRANSLATE REFERENCE POSITION to the Z axis reference
 						translate([axes_Zsmooth_separation/2,0,axes_Zcarriage_pos]) {
 							if(draw_references) %frame();
-						
+
 							if(Render_Z_carriage)
 								Cyclone_Z_carriage();
 						}
 				}
 			}
 		}
-	
+
 	}
-	
-	
+
+
 	if(Render_control_board) {
 		translate([axes_Xsmooth_rodLen/2,0,0])
 			control_board(plasticColor=color_stillPart);
 	}
-	
+
 	// TRANSLATE REFERENCE POSITION to the FRONT LEFT Y rod idler, Y smooth rod end
 	translate([-axes_Ysmooth_separation/2,-axes_Ysmooth_rodLen/2,axes_Yreference_height]) {
 		if(draw_references) %frame();
-	
+
 		if(Render_Y_leftSmoothRodIdler)
 			Cyclone_Y_leftSmoothRodIdler();
 	}
-	
+
 	// TRANSLATE REFERENCE POSITION to the FRONT RIGHT Y rod idler, Y smooth rod end
 	translate([axes_Ysmooth_separation/2,-axes_Ysmooth_rodLen/2,axes_Yreference_height]) {
 		if(draw_references) %frame();
-	
+
 		if(Render_Y_rightSmoothRodIdler)
 			Cyclone_Y_rightSmoothRodIdler();
 	}
@@ -192,15 +192,15 @@ render_2D_or_3D() {
 	// TRANSLATE REFERENCE POSITION to the BACK LEFT Y rod idler, Y smooth rod end
 	translate([-axes_Ysmooth_separation/2,axes_Ysmooth_rodLen/2,axes_Yreference_height]) {
 		if(draw_references) %frame();
-	
+
 		if(Render_Y_leftSmoothRodIdler_back)
 			rotate([0,0,180]) Cyclone_Y_leftSmoothRodIdler();
 	}
-	
+
 	// TRANSLATE REFERENCE POSITION to the BACK RIGHT Y rod idler, Y smooth rod end
 	translate([axes_Ysmooth_separation/2,axes_Ysmooth_rodLen/2,axes_Yreference_height]) {
 		if(draw_references) %frame();
-	
+
 		if(Render_Y_rightSmoothRodIdler_back)
 			rotate([0,0,180]) Cyclone_Y_rightSmoothRodIdler();
 	}
@@ -208,18 +208,18 @@ render_2D_or_3D() {
 	// TRANSLATE REFERENCE POSITION to the FRONT Y frame, Y threaded rod end
 	translate([0,-axes_Ythreaded_rodLen/2,axes_Y_threaded_height]) {
 		if(draw_references) %frame();
-	
+
 		// Draw Y threaded rod
 		standard_rod(diam=axes_Ythreaded_rodD, length=axes_Ythreaded_rodLen, threaded=true, echoPart=true);
-	
+
 		if(Render_Y_frontFrame)
 		  Cyclone_Y_frontFrame();
-	
-	
+
+
 		// TRANSLATE REFERENCE POSITION to the BACK Y frame, Y threaded rod end
 		translate([0,axes_Ythreaded_rodLen,0]) {
 			if(draw_references) %frame();
-		
+
 			if(Render_Y_backFrame)
 				Cyclone_Y_backFrame();
 		}
@@ -229,9 +229,15 @@ render_2D_or_3D() {
 	// TRANSLATE REFERENCE POSITION to the CENTERED Y carriage nut, Y threaded rod
 	translate([0,-axes_Ysmooth_rodLen/2+axes_Ycarriage_pos,axes_Y_threaded_height]) {
 		if(draw_references) %frame();
-		
+
 		if(render_DXF_workbed)
-			!Cyclone_Y_carriage(); // Render carriage exclusively
-		else if(Render_Y_carriage) Cyclone_Y_carriage();
+			Cyclone_Y_carriage(); // Render carriage exclusively
+		else if(Render_Y_carriage){
+			if(printed_workbed){
+				Cyclone_Printed_Workbed();
+			}else{
+				Cyclone_Y_carriage();
+			}
+		}
 	}
 }
